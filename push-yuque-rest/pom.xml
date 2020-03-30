@@ -127,7 +127,7 @@
     </dependencies>
 
     <build>
-        <finalName>${parent.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <!--spring boot打包插件-->
             <plugin>
