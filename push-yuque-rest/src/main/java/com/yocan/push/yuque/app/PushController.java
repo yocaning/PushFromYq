@@ -27,17 +27,21 @@ public class PushController {
 
     /**
      * 接收语雀推送，并推送微信
-     * 2020-03-03 修改为单点推送，由于没有服务号
-     *  TODO 无法一对多推送，可将需要推送的地址维护一个list todo
+     * 2020-03-30   21:00 修改为单点推送，由于没有服务号
+     *  2020-03-30  22:00 无法一对多推送，可将需要推送的地址维护一个list  done
      */
     @RequestMapping("/weChat")
     public String  pushText(@RequestBody ParamDto paramDto){
         System.out.println(JSONUtil.objectToJsonString(paramDto));
         RequestDto requestParam =new RequestDto();
-        requestParam.setText("语雀通知"+paramDto.getData().getTitle());
+        requestParam.setText("<语雀通知>"+paramDto.getData().getTitle());
         requestParam.setDesp(paramDto.getData().getBody());
+        ResponseEntity<String> stringResponseEntity =null;
         //构造get方法发送消息
-        ResponseEntity<String> stringResponseEntity =restTemplate.getForEntity(ConstantData.URL+"?text="+requestParam.getText()+"&desp=-"+requestParam.getDesp(),String.class);
+        for (String url:ConstantData.URL){
+            stringResponseEntity=restTemplate.getForEntity(url+"?text="+requestParam.getText()+"&desp=-"+requestParam.getDesp(),String.class);
+        }
+
         return stringResponseEntity.getBody();
     }
 
