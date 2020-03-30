@@ -27,22 +27,17 @@ public class PushController {
 
     /**
      * 接收语雀推送，并推送微信
+     * 2020-03-03 修改为单点推送，由于没有服务号
      */
     @RequestMapping("/weChat")
     public String  pushText(@RequestBody ParamDto paramDto){
         System.out.println(JSONUtil.objectToJsonString(paramDto));
         RequestDto requestParam =new RequestDto();
-        requestParam.setSendkey("17915-529c8c66882169a27b63b26da3ee137e");
-        requestParam.setText("语雀通知-测试");
+        requestParam.setText("语雀通知"+paramDto.getData().getTitle());
         requestParam.setDesp(paramDto.getData().getBody());
-        //创建请求头
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String jsonString = JSONUtil.objectToJsonString(requestParam);
-        HttpEntity<String> entity = new HttpEntity<>(jsonString, headers);
-        ResponseEntity responseEntity =restTemplate.getForEntity(ConstantData.URL+"",String.class);
-        return responseEntity.getBody().toString();
+        //构造get方法发送消息
+        ResponseEntity<String> stringResponseEntity =restTemplate.getForEntity(ConstantData.URL+"?text="+requestParam.getText()+"&desp=-"+requestParam.getDesp(),String.class);
+        return stringResponseEntity.getBody();
     }
 
 }
