@@ -28,6 +28,7 @@ public class PushController {
     /**
      * 接收语雀推送，并推送微信
      * 2020-03-03 修改为单点推送，由于没有服务号
+     *  TODO 无法一对多推送，可将需要推送的地址维护一个list todo
      */
     @RequestMapping("/weChat")
     public String  pushText(@RequestBody ParamDto paramDto){
