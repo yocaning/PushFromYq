@@ -18,4 +18,10 @@ listening to all YUQUE update information from PushBear push
         -  维护一个地址list进行通知push
         -  已经部署生效了。
         
+- 20-04-19更新
+    - 评论发布时看不到具体内容
+    - 新增根据发布类型，从不同途径获取内容
+        -  支持通知新增评论以及新增行内评论
+        -  已经部署生效了。
+        
 - 后续待完善
