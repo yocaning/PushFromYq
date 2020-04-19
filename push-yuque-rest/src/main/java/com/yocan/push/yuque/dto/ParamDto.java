@@ -8,9 +8,9 @@ import java.util.Date;
 public class ParamDto {
 
     private DocDetailSerializer data;
-    private String action_type;
+
     /**
-     *  Attributes
+     * Attributes
      * • id - 文档编号
      * • slug - 文档路径
      * • title - 标题
@@ -33,30 +33,57 @@ public class ParamDto {
      * • created_at - 创建时间
      * • updated_at - 更新时间
      */
-            @Data
-            public static class DocDetailSerializer {
-                private Integer id;
-                private String slug;
-                private String title;
-                private UserSerializer user;
-                private Date updated_at;
-                private String body;
-            }
+    @Data
+    public static class DocDetailSerializer {
+        private Integer id;
+        private String slug;
+        private String title;
+        private UserSerializer user;
+        private String body_html;
+        private Date updated_at;
+        private String body;
+        /**
+         * 行内评论
+         * WORDING_COMMENT
+         */
+        private String type;
+        /**
+         * 暂时分为二种
+         * 1。comment_create 发表评论
+         * 2。publish
+         */
+        private String action_type;
+        private Comment commentable;
+
+        /**
+         * 评论相关信息
+         */
+        @Data
+        public static class Comment {
             /**
-             * Attributes
-             * • id - 用户编号
-             * • type - 类型 [`User`  - 用户, Group - 团队]
-             * • login - 用户个人路径
-             * • name - 昵称
-             * • avatar_url - 头像 URL
-             * • created_at - 创建时间
-             * • updated_at - 更新时间
+             * 给哪篇文章评论
              */
-            @Data
-            public static class UserSerializer {
-                private Integer id;
-                private String name;
+            private String title;
+        }
+
     }
+
+    /**
+     * Attributes
+     * • id - 用户编号
+     * • type - 类型 [`User`  - 用户, Group - 团队]
+     * • login - 用户个人路径
+     * • name - 昵称
+     * • avatar_url - 头像 URL
+     * • created_at - 创建时间
+     * • updated_at - 更新时间
+     */
+    @Data
+    public static class UserSerializer {
+        private Integer id;
+        private String name;
+    }
+
 
 
 

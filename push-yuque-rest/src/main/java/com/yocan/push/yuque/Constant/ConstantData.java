@@ -1,6 +1,7 @@
 package com.yocan.push.yuque.Constant;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConstantData {
@@ -21,6 +22,19 @@ public class ConstantData {
             "https://sc.ftqq.com/SCU91393Taa853aabb79459170e9becb742f8bffe5e908bd7c2816.send",
             "https://sc.ftqq.com/SCU93426Tcf50efbaa8f9cdedffc853d8dd1b31955e908fdeacc71.send"
     );
+
+
+    public static final HashMap<String,Integer> HASHMAP =new HashMap<>();
+    public static final HashMap<Integer,String> COMMENT =new HashMap<>();
+    static {
+        HASHMAP.put("WORDING_COMMENT",2);
+        HASHMAP.put("comment_create",3);
+        HASHMAP.put("publish",1);
+        COMMENT.put(1,"新文章发布-");
+        COMMENT.put(2,"新评论发布from-");
+        COMMENT.put(3,"新评论发布from-");
+        COMMENT.put(0,"null-");
+    }
 
 
 }
