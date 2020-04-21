@@ -20,7 +20,9 @@ public class ConstantData {
             "https://sc.ftqq.com/SCU93422Ta62b2530f664eb03d8c3d3d2a0086d0a5e908931127b9.send",
 
             "https://sc.ftqq.com/SCU91393Taa853aabb79459170e9becb742f8bffe5e908bd7c2816.send",
-            "https://sc.ftqq.com/SCU93426Tcf50efbaa8f9cdedffc853d8dd1b31955e908fdeacc71.send"
+            "https://sc.ftqq.com/SCU93426Tcf50efbaa8f9cdedffc853d8dd1b31955e908fdeacc71.send",
+
+            "https://sc.ftqq.com/SCU94652T3a976b6593132c54139806a4e41e13455e9ddf616fc90.send"
     );
 
 
