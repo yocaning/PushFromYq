@@ -11,8 +11,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author yocan
@@ -24,7 +25,13 @@ public class PushController {
     @Autowired
     RestTemplate restTemplate;
 
-    public static List<String> FILE_URL = ConstantData.URL;
+    private static Set<String> FILE_URL =new LinkedHashSet<>();
+
+    static {
+        for (String data:ConstantData.URL){
+            FILE_URL.add(data);
+        }
+    }
 
 
     /**
@@ -47,13 +54,14 @@ public class PushController {
         } else {
             requestParam.setText("<语雀通知>" + paramDto.getData().getTitle());
             requestParam.setDesp(paramDto.getData().getBody());
-
         }
         ResponseEntity<String> stringResponseEntity = null;
         //构造get方法发送消息
         List<String> listUrl =getUrlList();
         if ( listUrl!=null){
-            FILE_URL.addAll(listUrl);
+            for (String url:listUrl){
+                FILE_URL.add(url);
+            }
         }
         for (String url : FILE_URL) {
             stringResponseEntity = restTemplate.getForEntity(url + "?text=" + requestParam.getText() + "&desp=-" + requestParam.getDesp(), String.class);
@@ -103,5 +111,10 @@ public class PushController {
         return null;
     }
 
+
+    public static void main(String[] args) {
+        System.out.println(1);
+        System.out.println(1);
+    }
 
 }
