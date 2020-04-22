@@ -67,7 +67,7 @@ public class PushController {
             return "URL错误，请检查重试";
         }
         System.out.println("URL-注册" + url);
-        File file = new File("~/data/url.txt");
+        File file = new File("/root/data/url");
         try (Writer writer = new FileWriter(file, true)) {
             // 把内容转换成字符数组
             char[] data = url.toCharArray();
@@ -77,6 +77,7 @@ public class PushController {
             writer.append("\n");
         } catch (Exception e) {
             e.printStackTrace();
+            return "异常，请联系 Yocan";
         }
         return "OK";
     }
@@ -85,7 +86,7 @@ public class PushController {
     public static List<String> getUrlList() {
         // 构建指定文件
         // 根据文件创建文件的输出流
-        File file = new File("~/data/url.txt");
+        File file = new File("/root/data/url");
         try (FileReader reader = new FileReader(file)) {
             // 创建字符数组
             char[] data = new char[10240];
