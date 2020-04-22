@@ -4,14 +4,15 @@ import com.yocan.push.yuque.Constant.ConstantData;
 import com.yocan.push.yuque.dto.ParamDto;
 import com.yocan.push.yuque.dto.RequestDto;
 import com.yocan.push.yuque.util.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.nio.channels.SocketChannel;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author yocan
@@ -22,6 +23,8 @@ public class PushController {
 
     @Autowired
     RestTemplate restTemplate;
+
+    public static List<String> FILE_URL = ConstantData.URL;
 
 
     /**
@@ -48,7 +51,11 @@ public class PushController {
         }
         ResponseEntity<String> stringResponseEntity = null;
         //构造get方法发送消息
-        for (String url : ConstantData.URL) {
+        List<String> listUrl =getUrlList();
+        if ( listUrl!=null){
+            FILE_URL.addAll(listUrl);
+        }
+        for (String url : FILE_URL) {
             stringResponseEntity = restTemplate.getForEntity(url + "?text=" + requestParam.getText() + "&desp=-" + requestParam.getDesp(), String.class);
         }
         return stringResponseEntity.getBody();
@@ -56,7 +63,7 @@ public class PushController {
 
     @GetMapping("/urlRegistered")
     public String urlRegistered(@RequestParam String url) throws IOException {
-        if (url.contains("\"")){
+        if (url.contains("\"")) {
             return "URL错误，请检查重试";
         }
         System.out.println("URL-注册" + url);
@@ -72,6 +79,27 @@ public class PushController {
             e.printStackTrace();
         }
         return "OK";
+    }
+
+
+    public static List<String> getUrlList() {
+        // 构建指定文件
+        // 根据文件创建文件的输出流
+        File file = new File("~/data/url.txt");
+        try (FileReader reader = new FileReader(file)) {
+            // 创建字符数组
+            char[] data = new char[10240];
+            // 读取内容，放到字符数组里面
+            reader.read(data);
+            String string = new String(data);
+            string = string.trim();
+            String[] strings = string.split("\n");
+
+            return Arrays.asList(strings);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
