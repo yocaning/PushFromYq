@@ -41,6 +41,7 @@ public class PushController {
      * 2020-04-18 想增加评论相关信息 done
      * 2020-04-19 增加根据发布类型，进行评论和文章的区分
      * 2020-04-22 添加自定义更新url接口
+     * TODO 换成post方法，get方法有部分限制
      */
     @RequestMapping("/weChat")
     public String pushText(@RequestBody ParamDto paramDto) {
@@ -101,6 +102,7 @@ public class PushController {
             // 读取内容，放到字符数组里面
             reader.read(data);
             String string = new String(data);
+            // 去除多余的空格
             string = string.trim();
             String[] strings = string.split("\n");
 
