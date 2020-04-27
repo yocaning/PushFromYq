@@ -83,8 +83,8 @@ public class PushController {
     }
 
     @GetMapping("/urlRegistered")
-    public String urlRegistered(@RequestParam String url) throws IOException {
-        if (url.contains("\"")) {
+    public String urlRegistered(@RequestParam String url)  {
+        if (url.contains("\"") || !url.startsWith("http") || !url.endsWith("send")) {
             return "URL错误，请检查重试";
         }
         System.out.println("URL-注册" + url);
