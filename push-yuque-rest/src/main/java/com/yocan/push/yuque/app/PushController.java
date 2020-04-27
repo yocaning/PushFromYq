@@ -5,7 +5,10 @@ import com.yocan.push.yuque.dto.ParamDto;
 import com.yocan.push.yuque.dto.RequestDto;
 import com.yocan.push.yuque.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +26,7 @@ import java.util.Set;
 public class PushController {
 
     @Autowired
+    @Qualifier(value = "rawRestTemplate")
     RestTemplate restTemplate;
 
     private static Set<String> FILE_URL =new LinkedHashSet<>();
@@ -41,7 +45,10 @@ public class PushController {
      * 2020-04-18 想增加评论相关信息 done
      * 2020-04-19 增加根据发布类型，进行评论和文章的区分
      * 2020-04-22 添加自定义更新url接口
-     * TODO 换成post方法，get方法有部分限制
+     * TODO 换成post方法，get方法有部分限制 done
+     * 2020-04-27 修改get方法为post方法
+     * restTemplate.getForEntity(url + "?text=" + requestParam.getText() + "&desp=-" + requestParam.getDesp(), String.class);
+     *
      */
     @RequestMapping("/weChat")
     public String pushText(@RequestBody ParamDto paramDto) {
@@ -65,7 +72,12 @@ public class PushController {
             }
         }
         for (String url : FILE_URL) {
-            stringResponseEntity = restTemplate.getForEntity(url + "?text=" + requestParam.getText() + "&desp=-" + requestParam.getDesp(), String.class);
+            //将对象装入HttpEntity中
+            MultiValueMap map = new LinkedMultiValueMap();
+            map.add("text", requestParam.getText());
+            map.add("desp", requestParam.getDesp());
+            stringResponseEntity = restTemplate.postForEntity(url, map,String.class);
+
         }
         return stringResponseEntity.getBody();
     }
@@ -111,6 +123,17 @@ public class PushController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @PostMapping("/test")
+    public void send(){
+        //将对象装入HttpEntity中
+        MultiValueMap map = new LinkedMultiValueMap();
+        map.add("text", "测试");
+        map.add("desp", "难搞");
+        String url =ConstantData.URL.get(0);
+        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(url, map,String.class);
+        System.out.println(stringResponseEntity);
     }
 
 }
