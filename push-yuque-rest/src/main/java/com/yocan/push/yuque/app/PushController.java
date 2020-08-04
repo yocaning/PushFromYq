@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -90,6 +91,36 @@ public class PushController {
         return "OK";
     }
 
+    @GetMapping("/amountExe")
+    public BigDecimal amountExe(@RequestParam Integer people,@RequestParam Long amount) {
+        Integer historyAmount=0;
+        if (people>50 ){
+            historyAmount +=(people =people-50)*800;
+        }
+        if (people>40){
+            historyAmount +=(people-40)*750;
+        }
+        if (people>30){
+            historyAmount +=(people-30)*650;
+        }
+        if (people>20){
+            historyAmount +=(people-20)*500;
+        }
+        if (people>10){
+            historyAmount +=(people-10)*400;
+        }
+        if (people <=10 ){
+            historyAmount +=people*300;
+        }
+        BigDecimal i = BigDecimal.valueOf(people);
+        BigDecimal j = BigDecimal.valueOf(amount);
+        BigDecimal result =BigDecimal.valueOf(historyAmount.longValue());
+        BigDecimal data1 = j.divide(i, 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal data2 = data1.divide(BigDecimal.valueOf(10500), 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal data3 = data2.multiply(result);
+        BigDecimal data4 = data3.add(BigDecimal.valueOf(3800));
+        return data4;
+    }
 
     public static List<String> getUrlList() {
         // 构建指定文件
