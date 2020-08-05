@@ -12,7 +12,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -107,25 +110,31 @@ public class PushController {
     @GetMapping("/amountExe")
     public BigDecimal amountExe(@RequestParam Integer people,@RequestParam Long amount) {
         Integer historyAmount=0;
+        Integer truePeople=people;
         if (people>50 ){
-            historyAmount +=(people =people-50)*800;
+            historyAmount +=(people-50)*800;
+            people -=people-50;
         }
         if (people>40){
             historyAmount +=(people-40)*750;
+            people -=people-40;
         }
         if (people>30){
             historyAmount +=(people-30)*650;
+            people -=people-30;
         }
         if (people>20){
             historyAmount +=(people-20)*500;
+            people -=people-20;
         }
         if (people>10){
             historyAmount +=(people-10)*400;
+            people -=people-10;
         }
         if (people <=10 ){
             historyAmount +=people*300;
         }
-        BigDecimal i = BigDecimal.valueOf(people);
+        BigDecimal i = BigDecimal.valueOf(truePeople);
         BigDecimal j = BigDecimal.valueOf(amount);
         BigDecimal result =BigDecimal.valueOf(historyAmount.longValue());
         BigDecimal data1 = j.divide(i, 2, BigDecimal.ROUND_HALF_UP);
